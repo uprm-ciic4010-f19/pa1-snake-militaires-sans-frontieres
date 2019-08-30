@@ -102,15 +102,56 @@ public class Player {
 
     public void render(Graphics g,Boolean[][] playeLocation){
         Random r = new Random();
+        
+        
+        
         for (int i = 0; i < handler.getWorld().GridWidthHeightPixelCount; i++) {
+        	//added the g.setColor(Color.red) below to see what happens. Nothing happens
             for (int j = 0; j < handler.getWorld().GridWidthHeightPixelCount; j++) {
-                g.setColor(Color.WHITE);
-
-                if(playeLocation[i][j]||handler.getWorld().appleLocation[i][j]){
-                    g.fillRect((i*handler.getWorld().GridPixelsize),
+            		// commented the following out: g.setColor(Color.WHITE);
+            		//separated g.setcolor for player/apple
+            
+            	/*Ok, so I managed to complete one of the specs by seperating the following code:
+            	  if(playeLocation[i][j]||handler.getWorld().appleLocation[i][j]){
+                    //changed i*handler to i+handler. it made the snake move slowly horizontally
+                	g.fillRect((i*handler.getWorld().GridPixelsize),
                             (j*handler.getWorld().GridPixelsize),
                             handler.getWorld().GridPixelsize,
                             handler.getWorld().GridPixelsize);
+                            
+                            into player Location and apple location, two if statements where
+                            
+            	  */
+            		
+            	if(playeLocation[i][j]){
+            			
+            			g.setColor(Color.GREEN);
+                        //changed i*handler to i+handler. it made the snake move slowly horizontally
+                    	g.fillRect((i*handler.getWorld().GridPixelsize),
+                                (j*handler.getWorld().GridPixelsize),
+                                handler.getWorld().GridPixelsize,
+                                handler.getWorld().GridPixelsize);
+            		}
+            	
+            	/*
+            	 * This if makes it so when the snake moves below the second row, it changes colors to red 
+            	 * Also, the "apple" is red if it appears below j = 2, in other
+            	 *  words, below the second column
+            	 * if (j>=2) {
+            		g.setColor(Color.red);
+            	}
+            	*/
+            		
+                if(handler.getWorld().appleLocation[i][j]){
+                	g.setColor(Color.red);
+                    //changed i*handler to i+handler. it made the snake move slowly horizontally
+                	g.fillRect((i*handler.getWorld().GridPixelsize),
+                            (j*handler.getWorld().GridPixelsize),
+                            handler.getWorld().GridPixelsize,
+                            handler.getWorld().GridPixelsize);
+                	
+                	
+                	
                 }
 
             }
@@ -118,7 +159,7 @@ public class Player {
 
 
     }
-
+    
     public void Eat(){
         lenght++;
         Tail tail= null;
@@ -129,6 +170,8 @@ public class Player {
                 if( handler.getWorld().body.isEmpty()){
                     if(this.xCoord!=handler.getWorld().GridWidthHeightPixelCount-1){
                         tail = new Tail(this.xCoord+1,this.yCoord,handler);
+                       
+                       
                     }else{
                         if(this.yCoord!=0){
                             tail = new Tail(this.xCoord,this.yCoord-1,handler);
@@ -224,15 +267,19 @@ public class Player {
                 break;
         }
         handler.getWorld().body.addLast(tail);
+        //added +5 to x and y: makes a copy of a tail in a spot on the grid that does nothing, but
+        //my crash the game if it happens in the lower rows
         handler.getWorld().playerLocation[tail.x][tail.y] = true;
     }
 
     public void kill(){
-        lenght = 0;
+        //changed lenght to 5, may crash the game bt otherwise does nothing
+    	lenght = 0;
         for (int i = 0; i < handler.getWorld().GridWidthHeightPixelCount; i++) {
             for (int j = 0; j < handler.getWorld().GridWidthHeightPixelCount; j++) {
 
-                handler.getWorld().playerLocation[i][j]=false;
+            	//changed from false to true : basically changes it to a drawing software
+                handler.getWorld().playerLocation[i][j]= false;
 
             }
         }
