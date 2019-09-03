@@ -19,6 +19,9 @@ public class Player {
     public int yCoord;
 
     public int moveCounter;
+    
+    //added variable counterMod
+    public int counterMod;
 
     public String direction;//is your first name one?
 
@@ -26,19 +29,45 @@ public class Player {
         this.handler = handler;
         xCoord = 0;
         yCoord = 0;
-        moveCounter = 0;
+        //moveCounter = 0;
+        //change to "Down from Right", changes the starting direction of the snake
         direction= "Right";
         justAte = false;
         lenght= 1;
+        //added variable counterMod
+        counterMod = 0;
 
     }
+   
 
     public void tick(){
         moveCounter++;
+        //added variable n that will change the speed at which the snake moves and if that changes n with the 
         if(moveCounter>=5) {
             checkCollisionAndMove();
-            moveCounter=0;
+            //added to = 1 from =0, added counter mod which keeps track of the players tick speed up to 5
+            moveCounter=counterMod;
         }
+        
+      //added to check if it collides with tail
+        //if (handler.getWorld().playerLocation[xCoord][yCoord] == handler.getWorld().body)
+        	//kill();
+        
+        //added the following which allows you to add a tail on pressing the n key
+        if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_N)) {
+        	handler.getWorld().body.addFirst(new Tail(xCoord, yCoord,handler));
+        }
+        
+        //added the following to increase and decrease speed with the +- keys on the numpad (+ on numpad, - on keyboard)
+       
+        if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_MINUS)) {
+        	counterMod--;
+        }
+        if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_ADD)) {
+        	counterMod++;
+        }
+        
+        
         if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_UP)){
             direction="Up";
         }if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_DOWN)){
@@ -48,6 +77,10 @@ public class Player {
         }if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_RIGHT)){
             direction="Right";
         }
+        
+      //added to check if player crashes against itself
+        //if (handler.getWorld().playerLocation[xCoord][yCoord] == handler.getWorld().body.){
+        	//kill();}
 
     }
 
@@ -55,31 +88,44 @@ public class Player {
         handler.getWorld().playerLocation[xCoord][yCoord]=false;
         int x = xCoord;
         int y = yCoord;
+      
         switch (direction){
             case "Left":
                 if(xCoord==0){
-                    kill();
-                }else{
+                	//removed the kill() when the snake crashed against the edge, replaced it with getting teleported
+                    //kill();
+
+                	xCoord = handler.getWorld().GridWidthHeightPixelCount-1;
+                }
+                else{
+                	//added to check if it collides with tail
                     xCoord--;
                 }
+                
                 break;
             case "Right":
                 if(xCoord==handler.getWorld().GridWidthHeightPixelCount-1){
-                    kill();
+                    //kill();
+                	//removed the kill() when the snake crashed against the edge, replaced it with getting teleported
+                	xCoord = 0;
                 }else{
                     xCoord++;
                 }
                 break;
             case "Up":
                 if(yCoord==0){
-                    kill();
+                	//removed the kill() when the snake crashed against the edge, replaced it with getting teleported
+                	//kill();
+                    yCoord = handler.getWorld().GridWidthHeightPixelCount-1;
                 }else{
                     yCoord--;
                 }
                 break;
             case "Down":
                 if(yCoord==handler.getWorld().GridWidthHeightPixelCount-1){
-                    kill();
+                	//removed the kill() when the snake crashed against the edge, replaced it with getting teleported
+                	//kill();
+                	yCoord = 0;
                 }else{
                     yCoord++;
                 }
@@ -90,12 +136,17 @@ public class Player {
 
         if(handler.getWorld().appleLocation[xCoord][yCoord]){
             Eat();
+            //added the following to speed up when the player eats it speeds the player up, but generates errors
+            counterMod++;
+            
         }
 
         if(!handler.getWorld().body.isEmpty()) {
             handler.getWorld().playerLocation[handler.getWorld().body.getLast().x][handler.getWorld().body.getLast().y] = false;
             handler.getWorld().body.removeLast();
             handler.getWorld().body.addFirst(new Tail(x, y,handler));
+            
+            
         }
 
     }
@@ -111,7 +162,7 @@ public class Player {
             		// commented the following out: g.setColor(Color.WHITE);
             		//separated g.setcolor for player/apple
             
-            	/*Ok, so I managed to complete one of the specs by seperating the following code:
+            	/*OK, so I managed to complete one of the specs by separating the following code:
             	  if(playeLocation[i][j]||handler.getWorld().appleLocation[i][j]){
                     //changed i*handler to i+handler. it made the snake move slowly horizontally
                 	g.fillRect((i*handler.getWorld().GridPixelsize),
@@ -162,6 +213,7 @@ public class Player {
     
     public void Eat(){
         lenght++;
+        
         Tail tail= null;
         handler.getWorld().appleLocation[xCoord][yCoord]=false;
         handler.getWorld().appleOnBoard=false;
@@ -169,6 +221,7 @@ public class Player {
             case "Left":
                 if( handler.getWorld().body.isEmpty()){
                     if(this.xCoord!=handler.getWorld().GridWidthHeightPixelCount-1){
+                    
                         tail = new Tail(this.xCoord+1,this.yCoord,handler);
                        
                        
@@ -266,22 +319,30 @@ public class Player {
                 }
                 break;
         }
+        
         handler.getWorld().body.addLast(tail);
+
+       
         //added +5 to x and y: makes a copy of a tail in a spot on the grid that does nothing, but
-        //my crash the game if it happens in the lower rows
+        //might crash the game if it happens in the lower rows
         handler.getWorld().playerLocation[tail.x][tail.y] = true;
+        
+        //added to check if player crashes against itself
+        //if (handler.getWorld().playerLocation[xCoord][yCoord] == handler.getWorld().body.contains(tail)){
+        	//kill();}
+        
     }
 
     public void kill(){
-        //changed lenght to 5, may crash the game bt otherwise does nothing
+        //changed length to 5, may crash the game but otherwise does nothing
     	lenght = 0;
         for (int i = 0; i < handler.getWorld().GridWidthHeightPixelCount; i++) {
             for (int j = 0; j < handler.getWorld().GridWidthHeightPixelCount; j++) {
-
             	//changed from false to true : basically changes it to a drawing software
                 handler.getWorld().playerLocation[i][j]= false;
-
+                
             }
+            
         }
     }
 
@@ -292,4 +353,6 @@ public class Player {
     public void setJustAte(boolean justAte) {
         this.justAte = justAte;
     }
+    
+    
 }
