@@ -16,13 +16,13 @@ public class Tail {
         this.y=y;
         handler.getWorld().playerLocation[x][y]=true;
       
-        //adding a color to the tail of the snake 
+         
         
         
     }
         
         
-        //adding a color to the tail of the snake 
+        
        
 }
 

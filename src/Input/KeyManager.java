@@ -13,6 +13,8 @@ public class KeyManager implements KeyListener {
 	private boolean[] keys,justPressed,cantPress;
 	public boolean up=false, down=false, left=false, right=false;
 	public boolean pbutt=false;
+	//added the following variable: n
+
 
 
 	public KeyManager(){

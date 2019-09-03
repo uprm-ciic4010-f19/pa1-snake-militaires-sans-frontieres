@@ -53,11 +53,13 @@ public abstract class WorldBase {
 
     public void render(Graphics g){
 
-        for (int i = 0; i <= 800; i = i + GridPixelsize) {
+        //changed from 800 to 1200
+    	for (int i = 0; i <= 800; i = i + GridPixelsize) {
         	//changed to red
             g.setColor(Color.WHITE);
-            g.drawLine(0, i, handler.getWidth() , i);
-            g.drawLine(i,0,i,handler.getHeight());
+            //commented these outs, these eliminate the gridlines
+            //g.drawLine(0, i, handler.getWidth() , i);
+            //g.drawLine(i,0,i,handler.getHeight());
 
         }
 

@@ -49,10 +49,6 @@ public class Player {
             moveCounter=counterMod;
         }
         
-      //added to check if it collides with tail
-        //if (handler.getWorld().playerLocation[xCoord][yCoord] == handler.getWorld().body)
-        	//kill();
-        
         //added the following which allows you to add a tail on pressing the n key
         if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_N)) {
         	handler.getWorld().body.addFirst(new Tail(xCoord, yCoord,handler));
