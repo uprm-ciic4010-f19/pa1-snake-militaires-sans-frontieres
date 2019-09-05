@@ -47,7 +47,10 @@ public class DisplayScreen {
         canvas.setMaximumSize(new Dimension(width, height));
         canvas.setMinimumSize(new Dimension(width, height));
         canvas.setFocusable(false);
-        canvas.setBackground(Color.black);
+        //change canvas background by RBG status
+
+        Color purp= new Color(128,0,128);
+        canvas.setBackground(purp);
 
         frame.add(canvas);
         frame.pack();
