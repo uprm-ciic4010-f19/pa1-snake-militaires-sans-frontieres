@@ -59,7 +59,7 @@ public class Player {
         if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_MINUS)) {
         	counterMod--;
         }
-        if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_ADD)) {
+        if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_EQUALS)) {
         	counterMod++;
         }
         
@@ -74,7 +74,7 @@ public class Player {
             direction="Right";
         }
         
-      //added to check if player crashes against itself
+      //added to check if player crashes against itself wip
         //if (handler.getWorld().playerLocation[xCoord][yCoord] == handler.getWorld().body.){
         	//kill();}
 
@@ -94,7 +94,7 @@ public class Player {
                 	xCoord = handler.getWorld().GridWidthHeightPixelCount-1;
                 }
                 else{
-                	//added to check if it collides with tail
+                	
                     xCoord--;
                 }
                 
@@ -132,7 +132,7 @@ public class Player {
 
         if(handler.getWorld().appleLocation[xCoord][yCoord]){
             Eat();
-            //added the following to speed up when the player eats it speeds the player up, but generates errors
+            //added the following to speed up when the player eats by adding 1 to moveCounter
             counterMod++;
             
         }
@@ -153,22 +153,21 @@ public class Player {
         
         
         for (int i = 0; i < handler.getWorld().GridWidthHeightPixelCount; i++) {
-        	//added the g.setColor(Color.red) below to see what happens. Nothing happens
             for (int j = 0; j < handler.getWorld().GridWidthHeightPixelCount; j++) {
             		// commented the following out: g.setColor(Color.WHITE);
+            		
             		//separated g.setcolor for player/apple
             
-            	/*OK, so I managed to complete one of the specs by separating the following code:
-            	  if(playeLocation[i][j]||handler.getWorld().appleLocation[i][j]){
-                    //changed i*handler to i+handler. it made the snake move slowly horizontally
-                	g.fillRect((i*handler.getWorld().GridPixelsize),
-                            (j*handler.getWorld().GridPixelsize),
-                            handler.getWorld().GridPixelsize,
-                            handler.getWorld().GridPixelsize);
-                            
-                            into player Location and apple location, two if statements where
-                            
-            	  */
+            		/*OK, so I managed to complete one of the specs by separating the following code:
+            		 
+            	  	if(playeLocation[i][j]||handler.getWorld().appleLocation[i][j]){
+                    	//changed i*handler to i+handler. it made the snake move slowly horizontally
+                		g.fillRect((i*handler.getWorld().GridPixelsize),
+                    	(j*handler.getWorld().GridPixelsize),
+                    	handler.getWorld().GridPixelsize,
+                    	handler.getWorld().GridPixelsize);
+                    
+                    into playerLocation and appleLocation, (two if statements)*/
             		
             	if(playeLocation[i][j]){
             			
@@ -188,6 +187,7 @@ public class Player {
             		g.setColor(Color.red);
             	}
             	*/
+            	
             		
                 if(handler.getWorld().appleLocation[i][j]){
                 	g.setColor(Color.red);
@@ -323,14 +323,11 @@ public class Player {
         //might crash the game if it happens in the lower rows
         handler.getWorld().playerLocation[tail.x][tail.y] = true;
         
-        //added to check if player crashes against itself
-        //if (handler.getWorld().playerLocation[xCoord][yCoord] == handler.getWorld().body.contains(tail)){
-        	//kill();}
         
     }
 
     public void kill(){
-        //changed length to 5, may crash the game but otherwise does nothing
+        //changed length to 5, may crash the game but otherwise does nothing, changed it back to 0
     	lenght = 0;
         for (int i = 0; i < handler.getWorld().GridWidthHeightPixelCount; i++) {
             for (int j = 0; j < handler.getWorld().GridWidthHeightPixelCount; j++) {
