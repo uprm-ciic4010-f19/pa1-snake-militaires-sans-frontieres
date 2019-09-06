@@ -1,12 +1,14 @@
 package Worlds;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.util.LinkedList;
+
 import Game.Entities.Dynamic.Player;
 import Game.Entities.Dynamic.Tail;
 import Game.Entities.Static.Apple;
 import Main.Handler;
-
-import java.awt.*;
-import java.util.LinkedList;
 
 
 /**
@@ -52,12 +54,20 @@ public abstract class WorldBase {
     }
 
     public void render(Graphics g){
-
+ 
         //changed from 800 to 1200
     	for (int i = 0; i <= 800; i = i + GridPixelsize) {
         	//changed to red
             g.setColor(Color.WHITE);
-
+            Font snakeFont= new Font("Comic Sans", 30, 30);
+            g.setFont(snakeFont);
+            //Getting the variable from Player class with a getter, applying then to currScore and exporting to the frame as necessary
+            
+           
+            
+            double output = Player.getCurrScore();
+            g.drawString("Score: " + output, 30, 30);
+            
             //commented these outs, these eliminate the gridlines
             //g.drawLine(0, i, handler.getWidth() , i);
             //g.drawLine(i,0,i,handler.getHeight());

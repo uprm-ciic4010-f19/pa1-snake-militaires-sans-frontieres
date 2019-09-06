@@ -17,11 +17,24 @@ public class Player {
 
     public int xCoord;
     public int yCoord;
+//applied getter and setter
+    static double currScore=0;
+	
+    
+public static double getCurrScore() {
+		return currScore;
+	}
 
-    public int moveCounter;
+
+	public void setCurrScore(double currScore) {
+		this.currScore = currScore;
+	}
+
+	//trying to get the output to make sense
+	public int moveCounter;
     
     //added variable counterMod
-    public int counterMod;
+    public static int counterMod;
 
     public String direction;//is your first name one?
 
@@ -208,7 +221,11 @@ public class Player {
     }
     
     public void Eat(){
-        lenght++;
+        //Juan, thinking of adding the score change here
+    	
+    	currScore=Math.sqrt((2*currScore)+1);
+    	//Haven't finished. La idea es cambiar aqui e imprimir en el render
+    	lenght++;
         
         Tail tail= null;
         handler.getWorld().appleLocation[xCoord][yCoord]=false;
