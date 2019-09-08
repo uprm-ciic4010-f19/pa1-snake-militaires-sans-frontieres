@@ -91,6 +91,7 @@ public static double getCurrScore() {
         }
         
         //adding here the thingamadoohicker that removes tail
+        //SIDENOTE IF M IS PRESSED DURING ONLY ONE TAIL GAME CRASHES
         if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_M)) {
         	lenght--;
         	handler.getWorld().playerLocation[handler.getWorld().body.getLast().x][handler.getWorld().body.getLast().y]=false;
