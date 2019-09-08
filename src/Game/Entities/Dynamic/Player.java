@@ -39,16 +39,7 @@ public static double getCurrScore() {
     public static int counterMod;
     /*Here I will add a public variable that will be a counter for the movement of the snake for the isGood()*/
     public int pacer;
-    
 
-    public int getPacer() {
-		return pacer;
-	}
-
-
-	public void setPacer(int pacer) {
-		this.pacer = pacer;
-	}
 
 	public String direction;//is your first name one?
 
@@ -106,6 +97,10 @@ public static double getCurrScore() {
             direction="Left";
         }if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_RIGHT)){
             direction="Right";
+        }
+        //This restarts the game. Got this from the MenuState.java codeline 29
+        if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_R)) {
+        	handler.getGame().reStart();
         }
         
       //added to check if player crashes against itself wip
@@ -238,7 +233,8 @@ public static double getCurrScore() {
             		g.setColor(Color.red);
             	}
             	else {
-            		g.setColor(Color.yellow);
+            		Color wine=new Color(88,11,28);
+            		g.setColor(wine);
             }
             		
                 if(handler.getWorld().appleLocation[i][j]){
