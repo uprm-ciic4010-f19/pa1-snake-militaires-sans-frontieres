@@ -268,13 +268,25 @@ public static double getCurrScore() {
     	
     	//add here the state change for isGood()?
     	//here we reset the pacer so that when eating it goes back to red
-    	Apple.appleState(true);
+   
+    	//add here the actual negative effect instead of just color change
+    	if(Apple.isGood()) {
+    		//añadir puntos
+    		currScore+= Math.sqrt((2*currScore)+1);
+    	}
+    	//quitar puntos
+    	else {
+    		currScore-= Math.sqrt((2*currScore)+1);
+    	}
+    	//sale NaN si el score baja de 0. Changing value to avoid that
+    	if(currScore<0) {
+    		currScore=0;
+    	}
+        //Juan, thinking of adding the score change here
+    	 	Apple.appleState(true);
     	pacer=0;
     	
     	
-        //Juan, thinking of adding the score change here
-    	
-    	currScore=Math.sqrt((2*currScore)+1);
     	//La idea es cambiar aqui e imprimir en el render
     	lenght++;
         
