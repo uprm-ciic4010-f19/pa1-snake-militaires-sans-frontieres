@@ -273,33 +273,29 @@ public static double getCurrScore() {
     
     public void Eat(){
     	
-    	//add here the state change for isGood()?
+    	/*(((((((((()//add here the state change for isGood()?
     	//here we reset the pacer so that when eating it goes back to red
    
     	//add here the actual negative effect instead of just color change
-    	if(Apple.isGood()) {
-    		//añadir puntos
-    		currScore+= Math.sqrt((2*currScore)+1);
-    	}
-    	//quitar puntos
-    	else {
-    		currScore-= Math.sqrt((2*currScore)+1);
-    	}
+    	
     	//sale NaN si el score baja de 0. Changing value to avoid that
-    	if(currScore<0) {
-    		currScore=0;
-    	}
-        //Juan, thinking of adding the score change here
-    	 	Apple.appleState(true);
-    	pacer=0;
     	
-    	
-    	//La idea es cambiar aqui e imprimir en el render
-    	lenght++;
-        
+        //Juan, thinking of adding the score change here)))))))))
+         * 
+         * 
+         * 
+         * THE PREVIOUS COMMENTS HERE ARE FROM THE OLD BRANCHES. KEPT TO KNOW THE EFFECT
+         * */        
         Tail tail= null;
         handler.getWorld().appleLocation[xCoord][yCoord]=false;
         handler.getWorld().appleOnBoard=false;
+        
+        //aqui que se añade cola si la manzana es buena
+        if(Apple.isGood()) {
+        	//cambiando las cosas dentro de esto para solo llamar el if apple is good una vez
+        	lenght++;
+        	currScore+= Math.sqrt((2*currScore)+1);
+        	
         switch (direction){
             case "Left":
                 if( handler.getWorld().body.isEmpty()){
@@ -404,13 +400,35 @@ public static double getCurrScore() {
         }
     
         handler.getWorld().body.addLast(tail);
-
+        handler.getWorld().playerLocation[tail.x][tail.y] = true;
+        }
+        //aqui seria si la manzana no es buena
+     
        
         //added +5 to x and y: makes a copy of a tail in a spot on the grid that does nothing, but
         //might crash the game if it happens in the lower rows
-        handler.getWorld().playerLocation[tail.x][tail.y] = true;
-        
-        
+    
+           else {
+        	   //else automaticamente considera si el apple es bad
+        	lenght--;
+        	//reduce speed
+        	/*
+        	 
+        	//this below code should reduce speed but it doesn't. Why?
+        	counterMod--;
+        	*/
+        	//continuation
+        	currScore-= Math.sqrt((2*currScore)+1);
+        	handler.getWorld().playerLocation[handler.getWorld().body.getLast().x][handler.getWorld().body.getLast().y]=false;
+        	handler.getWorld().body.removeLast();
+        	//aqui asegura que no baje a NaN, AKA a glitch, y que se quede en 0.
+        	if(currScore<0) {
+    		currScore=0;
+    	}
+        }
+        //reset to natural apple state
+     	Apple.appleState(true);
+    	pacer=0;
     }
 
     public void kill(){
