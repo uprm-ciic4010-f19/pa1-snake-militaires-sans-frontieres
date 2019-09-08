@@ -6,6 +6,8 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.Random;
 
+import Game.Entities.Static.Apple;
+
 /**
  * Created by AlexVR on 7/2/2018.
  */
@@ -35,8 +37,20 @@ public static double getCurrScore() {
     
     //added variable counterMod
     public static int counterMod;
+    /*Here I will add a public variable that will be a counter for the movement of the snake for the isGood()*/
+    public int pacer;
+    
 
-    public String direction;//is your first name one?
+    public int getPacer() {
+		return pacer;
+	}
+
+
+	public void setPacer(int pacer) {
+		this.pacer = pacer;
+	}
+
+	public String direction;//is your first name one?
 
     public Player(Handler handler){
         this.handler = handler;
@@ -110,7 +124,8 @@ public static double getCurrScore() {
                 	
                     xCoord--;
                 }
-                
+                //pacer variable
+                pacer++;
                 break;
             case "Right":
                 if(xCoord==handler.getWorld().GridWidthHeightPixelCount-1){
@@ -120,7 +135,10 @@ public static double getCurrScore() {
                 }else{
                     xCoord++;
                 }
+                //pacer variable
+                pacer++;
                 break;
+             
             case "Up":
                 if(yCoord==0){
                 	//removed the kill() when the snake crashed against the edge, replaced it with getting teleported
@@ -129,6 +147,8 @@ public static double getCurrScore() {
                 }else{
                     yCoord--;
                 }
+                //pacer variable
+                pacer++;
                 break;
             case "Down":
                 if(yCoord==handler.getWorld().GridWidthHeightPixelCount-1){
@@ -138,6 +158,7 @@ public static double getCurrScore() {
                 }else{
                     yCoord++;
                 }
+                pacer++;
                 break;
         }
         handler.getWorld().playerLocation[xCoord][yCoord]=true;
@@ -157,6 +178,8 @@ public static double getCurrScore() {
             
             
         }
+        //pacer counter in console
+        System.out.println(pacer);
 
     }
 
@@ -200,31 +223,59 @@ public static double getCurrScore() {
             		g.setColor(Color.red);
             	}
             	*/
-            	
+
+            	if(pacer==handler.getWorld().GridWidthHeightPixelCount) {
+            		Apple.appleState(false);
+            	}
+            	if(Apple.isGood()) {
+            		g.setColor(Color.red);
+            	}
+            	else {
+            		g.setColor(Color.yellow);
+            }
             		
                 if(handler.getWorld().appleLocation[i][j]){
-                	g.setColor(Color.red);
+                	
+                	
+                	
+                	
+                	
+                	/* 
+                	 *Juan. I am almost certain here is the change for good apple to bad apple aesthetic
+                	 *My guess is the Apple.java class needs the isGood() property and then use a getter over here
+                	 *if the getter determines the state of the apple to be good based on the info given
+                	 *then we can use a g.setColor to make it visually a bad apple
+                	 *Where would the initial getter be? Apple.java?*/
+                	
+                	
+                	
+                	
+                	
                     //changed i*handler to i+handler. it made the snake move slowly horizontally
                 	g.fillRect((i*handler.getWorld().GridPixelsize),
                             (j*handler.getWorld().GridPixelsize),
                             handler.getWorld().GridPixelsize,
                             handler.getWorld().GridPixelsize);
                 	
-                	
-                	
-                }
 
             }
         }
-
+        }
 
     }
     
     public void Eat(){
+    	
+    	//add here the state change for isGood()?
+    	//here we reset the pacer so that when eating it goes back to red
+    	Apple.appleState(true);
+    	pacer=0;
+    	
+    	
         //Juan, thinking of adding the score change here
     	
     	currScore=Math.sqrt((2*currScore)+1);
-    	//Haven't finished. La idea es cambiar aqui e imprimir en el render
+    	//La idea es cambiar aqui e imprimir en el render
     	lenght++;
         
         Tail tail= null;
@@ -332,7 +383,7 @@ public static double getCurrScore() {
                 }
                 break;
         }
-        
+    
         handler.getWorld().body.addLast(tail);
 
        
