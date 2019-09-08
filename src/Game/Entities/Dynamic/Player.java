@@ -90,6 +90,12 @@ public static double getCurrScore() {
         	counterMod++;
         }
         
+        //adding here the thingamadoohicker that removes tail
+        if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_M)) {
+        	lenght--;
+        	handler.getWorld().playerLocation[handler.getWorld().body.getLast().x][handler.getWorld().body.getLast().y]=false;
+        	handler.getWorld().body.removeLast();
+        }
         
         if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_UP)){
             direction="Up";
