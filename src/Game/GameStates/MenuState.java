@@ -15,6 +15,8 @@ import java.awt.*;
 public class MenuState extends State {
 
     private UIManager uiManager;
+    
+    //public State stateChecker = State.getState();
 
     public MenuState(Handler handler) {
         super(handler);
@@ -22,13 +24,19 @@ public class MenuState extends State {
         handler.getMouseManager().setUimanager(uiManager);
 
 
-        uiManager.addObjects(new UIImageButton(handler.getWidth()/2-64, handler.getHeight()/2-32, 128, 64, Images.butstart, new ClickListlener() {
+        //changed from uiManager.addObjects(new UIImageButton(handler.getWidth()/2-64, handler.getHeight()/2-32, 128, 64, Images.butstart, new ClickListlener() to the following:
+        uiManager.addObjects(new UIImageButton(handler.getWidth()/5-100, handler.getHeight()/3, 128, 64, Images.butstart, new ClickListlener() {
             @Override
             public void onClick() {
                 handler.getMouseManager().setUimanager(null);
                 handler.getGame().reStart();
                 State.setState(handler.getGame().gameState);
             }
+        }));
+        //added options button
+        uiManager.addObjects(new UIImageButton(56, 320+(64+16), 128, 64, Images.Options, () -> {
+            handler.getMouseManager().setUimanager(null);
+            State.setState(handler.getGame().menuState);
         }));
     }
 

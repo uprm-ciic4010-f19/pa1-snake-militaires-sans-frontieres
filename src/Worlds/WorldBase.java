@@ -36,6 +36,7 @@ public abstract class WorldBase {
 
 
     public Boolean[][] playerLocation;
+    
 
     public LinkedList<Tail> body = new LinkedList<>();
 
@@ -71,6 +72,7 @@ public abstract class WorldBase {
             //commented these outs, these eliminate the gridlines
             //g.drawLine(0, i, handler.getWidth() , i);
             //g.drawLine(i,0,i,handler.getHeight());
+            
 
         }
 

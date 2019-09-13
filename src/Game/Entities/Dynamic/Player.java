@@ -4,7 +4,23 @@ import Main.Handler;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Collection;
+import java.util.List;
 import java.util.Random;
+
+
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.DataLine;
+import javax.sound.sampled.DataLine.Info;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
+import Game.GameStates.State;
 
 import Game.Entities.Static.Apple;
 
@@ -35,10 +51,16 @@ public static double getCurrScore() {
 	//trying to get the output to make sense
 	public int moveCounter;
     
-    //added variable counterMod
-    public static int counterMod;
+
+    //added variable counterMod and tickLimit
+    public int counterMod1;
+    //public double tickLimit;
+
+    //added variable counterMod, changed it to counterMod1 cause it was a conflicting variable in git staging
+    public int counterMod;
     /*Here I will add a public variable that will be a counter for the movement of the snake for the isGood()*/
     public int pacer;
+
 
 
 	public String direction;//is your first name one?
@@ -52,9 +74,11 @@ public static double getCurrScore() {
         direction= "Right";
         justAte = false;
         lenght= 1;
-        //added variable counterMod
-        counterMod = 0;
-
+        //added variable counterMod and tickLimit
+        counterMod1 = 0;
+        //tickLimit = 5;
+        
+        
     }
    
 
@@ -64,49 +88,71 @@ public static double getCurrScore() {
         if(moveCounter>=5) {
             checkCollisionAndMove();
             //added to = 1 from =0, added counter mod which keeps track of the players tick speed up to 5
-            moveCounter=counterMod;
+            moveCounter=counterMod1;
+            
         }
         
+        //added suicide button
+        if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_PERIOD)) {
+        	State.setState(handler.getGame().gameOverState);
+        	
+        }
         //added the following which allows you to add a tail on pressing the n key
         if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_N)) {
-        	handler.getWorld().body.addFirst(new Tail(xCoord, yCoord,handler));
+        	handler.getWorld().body.addLast(new Tail(xCoord, yCoord,handler));
         }
         
         //added the following to increase and decrease speed with the +- keys on the numpad (+ on numpad, - on keyboard)
        
         if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_MINUS)) {
-        	counterMod--;
+        	counterMod1--;
         }
         if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_EQUALS)) {
-        	counterMod++;
+        	counterMod1++;
+        	//added to try it out
+//        	tickLimit += 0.5;
+//        	System.out.println("1. Tick: " + tickLimit);
+//        	System.out.println("2. Counter: " + counterMod);
+//        	System.out.println("3. Move: " + moveCounter);
         }
         
-        //adding here the thingamadoohicker that removes tail
+
+        //added pause state when pressing escape
+        if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_ESCAPE)) {
+        	State.setState(handler.getGame().pauseState);
+        }
+        //adding here the thing that removes tail
         //SIDENOTE IF M IS PRESSED DURING ONLY ONE TAIL GAME CRASHES
         if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_M)) {
+        	if (lenght == 1) {
+        		
+        	}
         	lenght--;
         	handler.getWorld().playerLocation[handler.getWorld().body.getLast().x][handler.getWorld().body.getLast().y]=false;
         	handler.getWorld().body.removeLast();
+        	
         }
         
+       
+      //added to prevent backtracking
         if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_UP)){
+            if(direction != "Down")
             direction="Up";
         }if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_DOWN)){
-            direction="Down";
+        	if(direction != "Up")
+        	direction="Down";
         }if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_LEFT)){
-            direction="Left";
+        	if(direction != "Right")
+        	direction="Left";
         }if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_RIGHT)){
-            direction="Right";
+        	if(direction != "Left")
+        	direction="Right";
         }
         //This restarts the game. Got this from the MenuState.java codeline 29
         if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_R)) {
         	handler.getGame().reStart();
         }
         
-      //added to check if player crashes against itself wip
-        //if (handler.getWorld().playerLocation[xCoord][yCoord] == handler.getWorld().body.){
-        	//kill();}
-
     }
 
     public void checkCollisionAndMove(){
@@ -119,11 +165,14 @@ public static double getCurrScore() {
                 if(xCoord==0){
                 	//removed the kill() when the snake crashed against the edge, replaced it with getting teleported
                     //kill();
-
                 	xCoord = handler.getWorld().GridWidthHeightPixelCount-1;
                 }
                 else{
-                	
+                	//added this if statement to check if player hits itself
+                	if (handler.getWorld().playerLocation[xCoord-1][yCoord] == true ) {
+                		kill();
+                		
+                	}
                     xCoord--;
                 }
                 //pacer variable
@@ -135,6 +184,10 @@ public static double getCurrScore() {
                 	//removed the kill() when the snake crashed against the edge, replaced it with getting teleported
                 	xCoord = 0;
                 }else{
+                	//added if to check if player collides with itself, causes a wird graphics like lag when back tracking
+                	if (handler.getWorld().playerLocation[xCoord+1][yCoord] == true ) {
+                		kill();
+                	}
                     xCoord++;
                 }
                 //pacer variable
@@ -147,6 +200,10 @@ public static double getCurrScore() {
                 	//kill();
                     yCoord = handler.getWorld().GridWidthHeightPixelCount-1;
                 }else{
+                	//added if to check if player collides with itself
+                	if (handler.getWorld().playerLocation[xCoord][yCoord-1] == true ) {
+                		kill();
+                	}
                     yCoord--;
                 }
                 //pacer variable
@@ -158,6 +215,10 @@ public static double getCurrScore() {
                 	//kill();
                 	yCoord = 0;
                 }else{
+                	//added if to check if player collides with itself
+                	if (handler.getWorld().playerLocation[xCoord][yCoord+1] == true ) {
+                		kill();
+                	}
                     yCoord++;
                 }
                 pacer++;
@@ -169,8 +230,8 @@ public static double getCurrScore() {
         if(handler.getWorld().appleLocation[xCoord][yCoord]){
             Eat();
             //added the following to speed up when the player eats by adding 1 to moveCounter
-            counterMod++;
-            
+            counterMod1++;
+            //tickLimit = (counterMod+3);
         }
 
         if(!handler.getWorld().body.isEmpty()) {
@@ -181,7 +242,7 @@ public static double getCurrScore() {
             
         }
         //pacer counter in console
-        System.out.println(pacer);
+        //System.out.println(pacer);
 
     }
 
@@ -405,6 +466,12 @@ public static double getCurrScore() {
         //might crash the game if it happens in the lower rows
     
            else {
+        	   //added to game over when game over when length is one
+        	   if (lenght == 1) {
+        		   kill();
+        		   
+        	   } else {
+        	   
         	   //else automaticamente considera si el apple es bad
         	lenght--;
         	//reduce speed
@@ -425,6 +492,7 @@ public static double getCurrScore() {
         //reset to natural apple state
      	Apple.appleState(true);
     	pacer=0;
+           }
     }
 
     public void kill(){
@@ -434,6 +502,8 @@ public static double getCurrScore() {
             for (int j = 0; j < handler.getWorld().GridWidthHeightPixelCount; j++) {
             	//changed from false to true : basically changes it to a drawing software
                 handler.getWorld().playerLocation[i][j]= false;
+                //added to test if killing sends to menu state
+                State.setState(handler.getGame().gameOverState);
                 
             }
             

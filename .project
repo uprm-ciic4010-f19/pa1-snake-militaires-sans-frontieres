@@ -14,4 +14,81 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>res/Buttons/Codec-forSnakeJavaProject1.png</name>
+			<type>1</type>
+			<location>C:/Users/yazet/Desktop/RUM CLASES/JAVA/Codec-forSnakeJavaProject1.png</location>
+		</link>
+		<link>
+			<name>res/Buttons/SnakeExit.png</name>
+			<type>1</type>
+			<location>C:/Users/yazet/Desktop/RUM CLASES/JAVA/SnakeExit.png</location>
+		</link>
+		<link>
+			<name>res/Buttons/SnakeExitP.png</name>
+			<type>1</type>
+			<location>C:/Users/yazet/Desktop/RUM CLASES/JAVA/SnakeExitP.png</location>
+		</link>
+		<link>
+			<name>res/Buttons/SnakeOptions.png</name>
+			<type>1</type>
+			<location>C:/Users/yazet/Desktop/RUM CLASES/JAVA/SnakeOptions.png</location>
+		</link>
+		<link>
+			<name>res/Buttons/SnakeOptionsP.png</name>
+			<type>1</type>
+			<location>C:/Users/yazet/Desktop/RUM CLASES/JAVA/SnakeOptionsP.png</location>
+		</link>
+		<link>
+			<name>res/Buttons/SnakeRestartBtn.png</name>
+			<type>1</type>
+			<location>C:/Users/yazet/Desktop/RUM CLASES/JAVA/SnakeRestartBtn.png</location>
+		</link>
+		<link>
+			<name>res/Buttons/SnakeRestartBtnP.png</name>
+			<type>1</type>
+			<location>C:/Users/yazet/Desktop/RUM CLASES/JAVA/SnakeRestartBtnP.png</location>
+		</link>
+		<link>
+			<name>res/Buttons/SnakeStart V1 Clicked.png</name>
+			<type>1</type>
+			<location>C:/Users/yazet/Desktop/RUM CLASES/JAVA/SnakeStart V1 Clicked.png</location>
+		</link>
+		<link>
+			<name>res/Buttons/SnakeStart V1 Normal.png</name>
+			<type>1</type>
+			<location>C:/Users/yazet/Desktop/RUM CLASES/JAVA/SnakeStart V1 Normal.png</location>
+		</link>
+		<link>
+			<name>res/Buttons/SnakeStart V1 Pressed.png</name>
+			<type>1</type>
+			<location>C:/Users/yazet/Desktop/RUM CLASES/JAVA/SnakeStart V1 Pressed.png</location>
+		</link>
+		<link>
+			<name>res/Sheets/GameOverText.png</name>
+			<type>1</type>
+			<location>C:/Users/yazet/Desktop/RUM CLASES/JAVA/GameOverText.png</location>
+		</link>
+		<link>
+			<name>res/Sheets/Snake Title V.3.png</name>
+			<type>1</type>
+			<location>C:/Users/yazet/Desktop/RUM CLASES/JAVA/Snake Title V.3.png</location>
+		</link>
+		<link>
+			<name>res/music/Metal gear solid Alert Theme.wav</name>
+			<type>1</type>
+			<location>C:/Users/yazet/Desktop/RUM CLASES/JAVA/Metal gear solid Alert Theme.wav</location>
+		</link>
+		<link>
+			<name>res/music/SnakeFall.wav</name>
+			<type>1</type>
+			<location>C:/Users/yazet/Desktop/RUM CLASES/JAVA/SnakeFall.wav</location>
+		</link>
+		<link>
+			<name>res/music/SnakeSFX.wav</name>
+			<type>1</type>
+			<location>C:/Users/yazet/Desktop/RUM CLASES/JAVA/Snake/bin/music/SnakeSFX.wav</location>
+		</link>
+	</linkedResources>
 </projectDescription>

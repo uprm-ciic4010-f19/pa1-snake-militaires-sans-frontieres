@@ -1,6 +1,7 @@
 package Main;
 
 import Display.DisplayScreen;
+import Game.GameStates.GameOverState;
 import Game.GameStates.GameState;
 import Game.GameStates.MenuState;
 import Game.GameStates.PauseState;
@@ -8,6 +9,7 @@ import Game.GameStates.State;
 import Input.KeyManager;
 import Input.MouseManager;
 import Resources.Images;
+import sun.applet.Main;
 
 import javax.sound.sampled.*;
 import java.awt.*;
@@ -45,15 +47,25 @@ public class GameSetUp implements Runnable {
     public State gameState;
     public State menuState;
     public State pauseState;
+    public State gameOverState;
 
-    //Res.music
-    private InputStream audioFile;
-    private AudioInputStream audioStream;
-    private AudioFormat format;
-    private DataLine.Info info;
-    private Clip audioClip;
+    //Res.music, changed from private to public
+    public InputStream audioFile;
+    public AudioInputStream audioStream;
+    public AudioFormat format;
+    public DataLine.Info info;
+    public Clip audioClip;
 
     private BufferedImage loading;
+   //added variable to count the amount of times tick is called
+    public int gameOverTickCounter = 0;
+    public int menuTickCounter = 0;
+    
+    
+    //added var to check the state
+    //public State stateChecker;
+    //public String statePrinter;
+    
 
     public GameSetUp(String title, int width, int height){
 
@@ -81,27 +93,37 @@ public class GameSetUp implements Runnable {
         gameState = new GameState(handler);
         menuState = new MenuState(handler);
         pauseState = new PauseState(handler);
+        
+        //added this game state
+        gameOverState = new GameOverState(handler);
 
+        //changed from menuState to another state, changes in what state the player starts
         State.setState(menuState);
+        menuTickCounter = 1;
+        
+        //tried commenting this out and putting it in tick()
+       try {
+      	
+    	   	audioFile = getClass().getResourceAsStream("/music/Metal gear solid Alert Theme.wav");
+          	audioStream = AudioSystem.getAudioInputStream(audioFile);
+          	format = audioStream.getFormat(); 
+        	info = new DataLine.Info(Clip.class, format);
+        	audioClip = (Clip) AudioSystem.getLine(info);
+        	audioClip.open(audioStream);
+        	audioClip.loop(Clip.LOOP_CONTINUOUSLY);
+         
+         
+        
+     } catch (UnsupportedAudioFileException e) {
+         e.printStackTrace();
+     } catch (IOException e) {
+          e.printStackTrace();
+      } catch (LineUnavailableException e) {
+           e.printStackTrace();}      
 
-        try {
-
-            audioFile = getClass().getResourceAsStream("/music/nature.wav");
-            audioStream = AudioSystem.getAudioInputStream(audioFile);
-            format = audioStream.getFormat();
-            info = new DataLine.Info(Clip.class, format);
-            audioClip = (Clip) AudioSystem.getLine(info);
-            audioClip.open(audioStream);
-            audioClip.loop(Clip.LOOP_CONTINUOUSLY);
-
-        } catch (UnsupportedAudioFileException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (LineUnavailableException e) {
-            e.printStackTrace();
-        }
     }
+    
+    
 
     public void reStart(){
         gameState = new GameState(handler);
@@ -149,20 +171,75 @@ public class GameSetUp implements Runnable {
                 timer = 0;
             }
         }
+        
 
         stop();
 
     }
 
     private void tick(){
+    	
         //checks for key types and manages them
         keyManager.tick();
 
         //game states are the menus
         if(State.getState() != null)
             State.getState().tick();
+        //added to play sound upon death and resume music upon restart
+        if (State.getState() == menuState && menuTickCounter < 1) {
+        	try {
+        		menuTickCounter++;
+        	   	audioFile = getClass().getResourceAsStream("/music/SnakeFall.wav");
+              	audioStream = AudioSystem.getAudioInputStream(audioFile);
+              	format = audioStream.getFormat(); 
+            	info = new DataLine.Info(Clip.class, format);
+            	audioClip = (Clip) AudioSystem.getLine(info);
+            	audioClip.open(audioStream);
+            	audioClip.loop(Clip.LOOP_CONTINUOUSLY);
+             
+             
+            
+         } catch (UnsupportedAudioFileException e) {
+             e.printStackTrace();
+         } catch (IOException e) {
+              e.printStackTrace();
+          } catch (LineUnavailableException e) {
+               e.printStackTrace();
+           }
+        	
+        }
+        
+        
+        if (State.getState() == gameOverState && gameOverTickCounter < 1){
+        	
+        	gameOverTickCounter++;
+        	try {
+              	audioClip.stop();
+        	   	audioFile = getClass().getResourceAsStream("/music/SnakeSFX.wav");
+              	audioStream = AudioSystem.getAudioInputStream(audioFile);
+              	format = audioStream.getFormat(); 
+            	info = new DataLine.Info(Clip.class, format);
+            	audioClip = (Clip) AudioSystem.getLine(info);
+            	audioClip.open(audioStream);
+            	audioClip.loop(0);
+             
+             
+            
+         } catch (UnsupportedAudioFileException e) {
+             e.printStackTrace();
+         } catch (IOException e) {
+              e.printStackTrace();
+          } catch (LineUnavailableException e) {
+               e.printStackTrace();
+           }
+        }
+        
+        
+       
+        
     }
-
+    
+        	
     private void render(){
         bs = display.getCanvas().getBufferStrategy();
         if(bs == null){
@@ -211,5 +288,6 @@ public class GameSetUp implements Runnable {
     public int getHeight(){
         return height;
     }
+    
 }
 
