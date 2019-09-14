@@ -104,7 +104,7 @@ public class GameSetUp implements Runnable {
         //tried commenting this out and putting it in tick()
        try {
       	
-    	   	audioFile = getClass().getResourceAsStream("/music/Metal gear solid Alert Theme.wav");
+    	   	audioFile = getClass().getResourceAsStream("/music/nature.wav");
           	audioStream = AudioSystem.getAudioInputStream(audioFile);
           	format = audioStream.getFormat(); 
         	info = new DataLine.Info(Clip.class, format);
@@ -215,7 +215,7 @@ public class GameSetUp implements Runnable {
         	gameOverTickCounter++;
         	try {
               	audioClip.stop();
-        	   	audioFile = getClass().getResourceAsStream("/music/SnakeSFX.wav");
+        	   	audioFile = getClass().getResourceAsStream("/music/nature.wav");
               	audioStream = AudioSystem.getAudioInputStream(audioFile);
               	format = audioStream.getFormat(); 
             	info = new DataLine.Info(Clip.class, format);
