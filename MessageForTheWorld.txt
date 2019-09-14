@@ -1,0 +1,12 @@
+Note to instructors and all reading the code: this project was active since its released
+and was updated locally very often with uploads when major features were implemented.
+On the last day of submission, with the project already done, both I (Yazet Sepulveda) and my partner (Juan Diaz) suffered  
+from bugs with eclipse were it didnt want to recognize our Main.Launch and the game wouldnt launch. 
+Most of these issues were fixed via trial and error, and instructor tips, but we eneded up having to copy paste everything
+and delete the entire local repository to restore from a previous state here on GitHub. The game has some issues with the
+music as I wasnt able to upload the final files as they were too large, and eclipse would not let me push the updated version that switched to the original song.
+I had a lot a fun during this project and regardless of my grade, I am glad I got to work with together with my partner to create something that has a little bit of
+both of us. I am glad I chose this career and I wish to inspire others into following their passions as well. Thank you for 
+the opportunity and I hope you enjoy the feautres that got into the final version!
+
+Sincerely, Yazet
