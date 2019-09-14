@@ -460,11 +460,7 @@ public static double getCurrScore() {
         handler.getWorld().playerLocation[tail.x][tail.y] = true;
         }
         //aqui seria si la manzana no es buena
-     
-       
-        //added +5 to x and y: makes a copy of a tail in a spot on the grid that does nothing, but
-        //might crash the game if it happens in the lower rows
-    
+         
            else {
         	   //added to game over when game over when length is one
         	   if (lenght == 1) {
