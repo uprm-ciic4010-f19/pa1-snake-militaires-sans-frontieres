@@ -189,7 +189,7 @@ public class GameSetUp implements Runnable {
         if (State.getState() == menuState && menuTickCounter < 1) {
         	try {
         		menuTickCounter++;
-        	   	audioFile = getClass().getResourceAsStream("/music/SnakeFall.wav");
+        	   	audioFile = getClass().getResourceAsStream("/music/nature.wav");
               	audioStream = AudioSystem.getAudioInputStream(audioFile);
               	format = audioStream.getFormat(); 
             	info = new DataLine.Info(Clip.class, format);
@@ -215,7 +215,7 @@ public class GameSetUp implements Runnable {
         	gameOverTickCounter++;
         	try {
               	audioClip.stop();
-        	   	audioFile = getClass().getResourceAsStream("/music/nature.wav");
+        	   	audioFile = getClass().getResourceAsStream("/music/SnakeSFX.wav");
               	audioStream = AudioSystem.getAudioInputStream(audioFile);
               	format = audioStream.getFormat(); 
             	info = new DataLine.Info(Clip.class, format);
